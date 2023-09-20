@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int            @id @default(autoincrement())
+  name           String
+  email          String?
+  phone          String         @unique
+  companyName    String
+  companySegment CompanySegment
+  companySize    CompanySize
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  ip             String
+  userAgent      String
+  Answer         Answer[]
+}
+
+model Answer {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  response  Json
+  group     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CompanySegment {
+  IT
+  HEALTH
+  INDUSTRY
+  ENGINEERING
+  LOGISTIC
+  SPORTS
+}
+
+enum CompanySize {
+  MICRO
+  SMALL
+  MEDIUM
+  LARGE
+  XLARGE
+}
