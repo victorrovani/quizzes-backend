@@ -27,23 +27,20 @@ module.exports = async (req, res) => {
         })
 
         const prevAnswer = await prisma.answer.findFirst({
-
             where: { User: { id: user.id } }
         })
 
         if (prevAnswer) {
             await prisma.answer.update({
-
                 where: { id: prevAnswer.id },
                 data: { response: req.body.Answers },
-
             })
 
         } else {
 
             await prisma.answer.create({
 
-                data: { response: req.body.Answers, User:{connect:{id:user.id}} },
+                data: { response: req.body.Answers, User: { connect: { id: user.id } } },
 
             })
 

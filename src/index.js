@@ -3,10 +3,16 @@ require("./config/module-alias.js");
 const express = require("express");
 const app = express();
 
+
+
 // Prisma
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 global.prisma = prisma;
+
+// Cors
+const cors = require("cors");
+app.use(cors());
 
 // File upload
 const fileUpload = require("express-fileupload");
