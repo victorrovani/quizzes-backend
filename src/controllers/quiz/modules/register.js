@@ -40,7 +40,28 @@ module.exports = async (req, res) => {
       })
     }
 
-    res.json({ user });
+    const dataAnswers = await prisma.answer.findMany({
+      where: { User: { id: { not: user.id }, companySegment: user.companySegment } },
+      select: { response: true }
+    })
+
+    const answersSummary = dataAnswers.reduce((acc, { response }) => {
+      response.forEach(([groups, value]) => {
+        groups.forEach((group) => {
+          if (!acc[group]) acc[group] = { value: 0, count: 0 }
+          acc[group].value += value
+          acc[group].count++
+        })
+      })
+      return acc
+    }, {})
+
+
+    const answers = Object.entries(answersSummary).map(([group, { value, count }]) => {
+      return [group, value / count]
+    })
+
+    res.json({ answers: Object.fromEntries(answers) });
   } catch (e) {
     let status = e.status || 500;
     let message = e.message || "Internal Server Error";

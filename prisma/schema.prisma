@@ -11,7 +11,7 @@ model User {
   id             Int            @id @default(autoincrement())
   name           String
   email          String         @unique
-  phone          String         @unique
+  phone          String?        @unique
   companyName    String
   companySegment CompanySegment
   companySize    CompanySize
@@ -34,11 +34,14 @@ model Answer {
 
 enum CompanySegment {
   IT
-  HEALTH
   INDUSTRY
+  HEALTH
   ENGINEERING
   LOGISTIC
-  SPORTS
+  FINANCIAL
+  EDUCATION
+  AGRICULTURE
+  OTHER
 }
 
 enum CompanySize {
