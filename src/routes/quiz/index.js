@@ -6,3 +6,4 @@ const AUTH = require("@src/middlewares/auth");
 router.post("/", QUIZ_CONTROLLER.register);
 
 module.exports = router;
+
